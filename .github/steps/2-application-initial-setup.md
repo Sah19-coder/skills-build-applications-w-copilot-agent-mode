@@ -32,7 +32,22 @@ In this step, we will accomplish the following:
 
 1. Now that we have created the app directory structure, setup a Python virtual environment, and Copilot agent mode helped write a `requirements.txt` to install all project dependencies, let's check our changes in to our `build-octofit-app` branch.
 
-1. With our new changes complete, please **commit** and **push** the changes to branch `build-octofit-app`.
+1. # Ensure requirements contains Django==4.1
+grep -q "^Django==4.1" octofit-tracker/backend/requirements.txt \
+  || (sed -i 's/^Django.*/Django==4.1/' octofit-tracker/backend/requirements.txt || true; \
+      grep -q "^Django==" octofit-tracker/backend/requirements.txt || echo "Django==4.1" >> octofit-tracker/backend/requirements.txt)
+
+# Create or switch to branch build-octofit-app
+git rev-parse --verify build-octofit-app >/dev/null 2>&1 && git switch build-octofit-app || git switch -c build-octofit-app
+
+# Stage changes
+git add -A
+
+# Commit (no-op if nothing to commit)
+git commit -m "Initial app structure and requirements (ensure Django==4.1)" || echo "No changes to commit"
+
+# Push branch to origin
+git push -u origin build-octofit-app
 
 1. Wait a moment for Mona to check your work, provide feedback, and share the next lesson so we can keep working!
 
